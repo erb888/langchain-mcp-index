@@ -4,7 +4,6 @@ from mcp.server.fastmcp import FastMCP
 
 app = FastMCP('email-mcp')
 
-@app.tool()
 def send_email_smtp(to: str, subject: str, body: str) -> dict:
   host = os.environ.get('SMTP_HOST')
   port = int(os.environ.get('SMTP_PORT', '587'))
@@ -13,7 +12,7 @@ def send_email_smtp(to: str, subject: str, body: str) -> dict:
   from_addr = os.environ.get('SMTP_FROM', user)
 
   if not all([host, port, user, pwd, from_addr]):
-    return {'ok': False, 'error': 'MEWOM MEOW'}
+    return {'ok': False, 'error': 'SMTP env vars missing'}
 
   msg = EmailMessage()
   msg['FROM'] = from_addr
